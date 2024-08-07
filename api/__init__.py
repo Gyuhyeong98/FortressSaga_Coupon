@@ -27,10 +27,11 @@ def response_parser(name: str, response: requests.request) -> dict:
     return result
 
 
-def fortress_saga_coupon(names: list[str], coupon: str):
+def fortress_saga_coupon(names: list[str], coupon: str) -> list[dict]:
     results = []
     for name in names:
         sleep(0.15)
         body = {"nickName": name, "code": coupon}
         response = requests.post(url=URL, headers=HEADER, json=body)
         results.append(response_parser(name=name, response=response))
+    return results
