@@ -1,5 +1,5 @@
 import streamlit as st
-from api import fortress_saga_coupon
+from coupon_api import fortress_saga_coupon
 
 
 def submit(fields: list, names: str, coupon: str):
