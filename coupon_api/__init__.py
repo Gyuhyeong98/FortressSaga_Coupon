@@ -20,18 +20,19 @@ MSG = {
 }
 
 
-def response_parser(name: str, response: requests.request) -> dict:
+def response_parser(name: str, coupon: str, response: requests.request) -> dict:
     result = json.loads(response.text)
     result = MSG.get(result["msg"], "개발자에게 오류 내용을 보고해주세요.")
-    result = {"name": name, "result": result}
+    result = {"name": name, "coupon": coupon, "result": result}
     return result
 
 
-def fortress_saga_coupon(names: list[str], coupon: str) -> list[dict]:
+def fortress_saga_coupon(names: list[str], coupons: list[str]) -> list[dict]:
     results = []
-    for name in names:
-        sleep(0.15)
-        body = {"nickName": name, "code": coupon}
-        response = requests.post(url=URL, headers=HEADER, json=body)
-        results.append(response_parser(name=name, response=response))
+    for coupon in coupons:
+        for name in names:
+            sleep(0.1)
+            body = {"nickName": name, "code": coupon}
+            response = requests.post(url=URL, headers=HEADER, json=body, timeout=3)
+            results.append(response_parser(name=name, coupon=coupon, response=response))
     return results
